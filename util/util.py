@@ -33,13 +33,9 @@ def returnNoneStrForFalse(value):
 		return value
 	else:
 		return "None"
-		
-#Substituted by filecmp.cmp()
-"""
-def getFileMD5(path):
-	file = open(path, "rb")
-	md5 = hashlib.md5(file.read()).digest()
-	file.close()
 
-	return md5
-"""
+def getAllowedPath(path):
+	not_alloweds = ["\\", "/", ":", "*", "?", "\"", "<", ">", "|", "."]
+	for not_allowed in not_alloweds:
+		path = path.replace(not_allowed, "_")
+	return path
