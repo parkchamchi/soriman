@@ -43,6 +43,13 @@ class Mulibr():
 	def artistnames(self):
 		return [artist.name for artist in self.artists]
 
+	@property
+	def albumcount(self):
+		count = 0
+		for artist in self.artists:
+			count += len(artist.albums)
+		return count
+
 	def read(self, src):
 		"""
 		Read music files in src
@@ -183,6 +190,8 @@ class Mainlibr(Mulibr):
 			shutil.rmtree(src)
 			os.mkdir(src)
 			print("Deleted %s." % src)
+
+		print("Now there are %d albums in main library." % self.albumcount)
 
 	def getArtistPath(self, artist):
 		return joinpath(self.path, topath(artist.name))
