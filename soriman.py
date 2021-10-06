@@ -41,8 +41,8 @@ if len(sys.argv) > 1:
 if not src:
 	#Get src
 	while True:
-		path = input("Input the source directory...: ")
-		if not os.path.exists(path):
+		src = input("Input the source directory...: ")
+		if not os.path.exists(src):
 			print("Couldn't locate the path...")
 		else:
 			break
