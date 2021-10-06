@@ -179,7 +179,7 @@ class Mainlibr(Mulibr):
 			if ext in exts:
 				exts[ext] += 1
 			else:
-				exts[ext] = 0
+				exts[ext] = 1
 		pprint(otherfiles)
 		print(exts)
 
