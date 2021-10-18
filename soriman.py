@@ -15,7 +15,7 @@ def getMainPath():
 			mainpath = file.read()
 		if os.path.exists(mainpath):
 			confirm = input("Is the main library at %s? (y/n): " % mainpath)
-			if confirm:
+			if confirm.lower() == 'y':
 				return mainpath
 
 	while True:

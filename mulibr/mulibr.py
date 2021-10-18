@@ -50,13 +50,21 @@ class Mulibr():
 			count += len(artist.albums)
 		return count
 
+	@property
+	def songcount(self):
+		count = 0
+		for artist in self.artists:
+			for album in artist.albums:
+				count += len(album.tracks)
+		return count
+
 	def read(self, src):
 		"""
 		Read music files in src
 		Returns: list of non-music files
 		"""
 
-		formats = [".mp3", ".flac", ".m4a"]
+		formats = [".mp3", ".flac", ".m4a"] #no .ape support
 
 		#Get all files from src
 		files = util.walkDir(src)[1]
@@ -124,6 +132,7 @@ class Mainlibr(Mulibr):
 		otherfiles = srclibr.read(src)
 
 		ignored = []
+		songs_diff = 0
 
 		for src_artist in srclibr.artists:
 			main_artist = self.hasArtist(src_artist.name)
@@ -157,6 +166,7 @@ class Mainlibr(Mulibr):
 					else:
 						#Delete the main album
 						shutil.rmtree(self.getAlbumPath(main_artist, main_album))
+						songs_diff -= len(main_album.tracks)
 						del main_album
 				
 				#Create new album dir and obj...
@@ -166,6 +176,8 @@ class Mainlibr(Mulibr):
 				#Move...
 				for track in src_album.tracks:
 					shutil.move(joinpath(src, track), self.getAlbumPath(main_artist, main_album))
+				songs_diff += len(src_album.tracks)
+					
 				print("Moved %s - %s..." % (main_artist.name, main_album.title))
 
 		#Clear the src folder
@@ -191,7 +203,7 @@ class Mainlibr(Mulibr):
 			os.mkdir(src)
 			print("Deleted %s." % src)
 
-		print("Now there are %d albums in main library." % self.albumcount)
+		print("Now there are %d albums and %d songs in main library." % (self.albumcount, self.songcount + songs_diff))
 
 	def getArtistPath(self, artist):
 		return joinpath(self.path, topath(artist.name))
